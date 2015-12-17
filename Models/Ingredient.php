@@ -5,6 +5,6 @@ class Ingredient extends Model{
     public $timestamps = false;
 
     public function recipes(){
-        return $this->belongsToMany("calebdre\Foody\Models\Recipe", "ingredients_recipes_pivot");
+        return $this->belongsToMany("calebdre\Foody\Models\Recipe", "ingredients_recipes_pivot", "ingredients_id", "recipes_id");
     }
 }
