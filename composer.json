@@ -1,0 +1,11 @@
+{
+	"name": "calebdre/foody",
+	"description":"API for foody app",
+	"minimum-stability":"dev",
+	"require": {
+		"calebdre/api-sugar": "dev-master"
+	},
+    "autoload": {
+      "psr-4": {"calebdre\\Foody\\": "./"}
+    }
+}
