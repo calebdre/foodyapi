@@ -2,7 +2,10 @@
 require "vendor/autoload.php";
 
 use calebdre\ApiSugar\Api;
-use calebdre\Foody\RecipeController;
+use calebdre\Foody\Controllers\CategoriesController;
+use calebdre\Foody\Controllers\IngredientsController;
+use calebdre\Foody\Controllers\RecipeController;
+
 
 $api = new Api();
 $api->configureDB([
@@ -17,5 +20,6 @@ $api->configureDB([
 ]);
 
 $api->addClass(new RecipeController());
-
+$api->addClass(new IngredientsController());
+$api->addClass(new CategoriesController());
 $api->execute();

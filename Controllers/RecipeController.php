@@ -1,4 +1,4 @@
-<?php namespace calebdre\Foody;
+<?php namespace calebdre\Foody\Controllers;
 
 use calebdre\ApiSugar\ApiController;
 use calebdre\Foody\Models\Recipe;
@@ -9,7 +9,7 @@ class RecipeController extends ApiController{
         'crud' => [
             'model' => 'calebdre\Foody\Models\Recipe',
             'resource_name' => 'recipes',
-            "eager_relations" => ["ingredients", "categories"],
+            "eager_relations" => ["ingredients", "categories", "ingredient_measures", "instructions"],
             "paginate" => ["per_page" => 15]
         ],
         'search' => [
