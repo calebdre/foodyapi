@@ -27,17 +27,26 @@ class RecipeController extends ApiController{
         }
 
         $q = $options['q'];
+        if(strpos($q, ",") !== false){
+            // there is a comma! (to help out with the logic...double negatives suck D:
+            $q = explode(",", $q);
+        }else{
+            $q = [$q];
+        }
+
         $results = [];
 
-        switch($options['filterBy']){
-            case "ingredient":
-                $results = $this->searchIngredients($q);
-                break;
-            case "category":
-                $results = $this->searchCategories($q);
-                break;
-            case "name":
-                $results = $this->searchByName($q);
+        foreach($q as $keyword){
+            switch($options['filterBy']){
+                case "ingredient":
+                    $results = array_unique(array_merge($results, $this->searchIngredients($keyword)->all()));
+                    break;
+                case "category":
+                    $results = array_unique(array_merge($results, $this->searchCategories($keyword)->all()));
+                    break;
+                case "keyword":
+                    $results = array_unique(array_merge($results, $this->searchByName($keyword)->all()));
+            }
         }
 
         Flight::json($results);
@@ -57,7 +66,7 @@ class RecipeController extends ApiController{
 
     private function searchRecipesWhere($relation, $q){
         return Recipe::whereHas($relation,function($query) use ($q){
-            $query->where("name", "LIKE", "%$q%");
+               $query->where("name", "LIKE", "%$q%");
         })->with("categories")->get();
     }
 }
