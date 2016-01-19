@@ -19,15 +19,11 @@ class Recipe extends Model{
         return $this->belongsToMany("calebdre\Foody\Models\Ingredient", "ingredients_recipes_pivot", "recipes_id", "ingredients_id");
     }
 
-    public function ingredient_measures(){
-        return $this->hasMany("calebdre\Foody\Models\IngredientMeasurement", "recipes_id");
-    }
-
     public function categories(){
         return $this->belongsToMany("calebdre\Foody\Models\Category", "categories_recipes_pivot", "recipes_id", "categories_id");
     }
 
-    public function likes(){
-        return $this->hasMany("calebdre\Foody\Models\Like");
-    }
+//    public function user(){
+//        return $this->belongsTo("calebdre\Foody\Models\User");
+//    }
 }

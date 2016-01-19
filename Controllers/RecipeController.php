@@ -9,7 +9,7 @@ class RecipeController extends ApiController{
         'crud' => [
             'model' => 'calebdre\Foody\Models\Recipe',
             'resource_name' => 'recipes',
-            "eager_relations" => ["ingredients", "categories", "ingredient_measures", "instructions"],
+            "eager_relations" => ["ingredients.measurement", "categories", "instructions.comments"],
             "paginate" => ["per_page" => 15]
         ],
         'search' => [
@@ -27,9 +27,9 @@ class RecipeController extends ApiController{
         }
 
         $q = $options['q'];
-        if(strpos($q, ",") !== false){
+        if(strpos($q, "|") !== false){
             // there is a comma! (to help out with the logic...double negatives suck D:
-            $q = explode(",", $q);
+            $q = explode("|", $q);
         }else{
             $q = [$q];
         }
@@ -61,12 +61,12 @@ class RecipeController extends ApiController{
     }
 
     private function searchByName($q){
-        return Recipe::where("name" , "LIKE", "%$q%")->get()->all();
+        return Recipe::where("name" , "LIKE", "%$q%")->with("categories","ingredients")->get();
     }
 
     private function searchRecipesWhere($relation, $q){
         return Recipe::whereHas($relation,function($query) use ($q){
                $query->where("name", "LIKE", "%$q%");
-        })->with("categories")->get();
+        })->with("categories","ingredients")->get();
     }
 }

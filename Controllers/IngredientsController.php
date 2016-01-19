@@ -6,7 +6,7 @@ class IngredientsController extends ApiController{
         'crud' => [
             'model' => 'calebdre\Foody\Models\Ingredient',
             'resource_name' => 'ingredients',
-            "eager_relations" => [],
+            "eager_relations" => ['measurement'],
             "paginate" => ["per_page" =>20]
         ],
     ];
